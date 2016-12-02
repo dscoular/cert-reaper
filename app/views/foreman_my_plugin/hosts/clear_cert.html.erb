@@ -1,0 +1,4 @@
+<h1><b>Cert Name:</b> <%= params['id'] %></h1>
+<h2><b>Host: </b> <%= simple_format @host.to_yaml %>
+<h2><b>Host Proxy: </b> <%= simple_format @host.puppet_ca_proxy.url %>
+
