@@ -1,2 +1,2 @@
-# Matches foreman_my_plugin.gemspec
-_('TODO: Description of ForemanMyPlugin.')
+# Matches cert_reaper.gemspec
+_('TODO: Description of CertReaper.')
