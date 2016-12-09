@@ -1,6 +1,6 @@
-# ForemanMyPlugin
+# Cert Reaper
 
-*Introdction here*
+*Introduction here*
 
 ## Installation
 
