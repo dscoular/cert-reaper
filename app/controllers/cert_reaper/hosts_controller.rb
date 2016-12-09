@@ -1,10 +1,10 @@
-module ForemanMyPlugin
+module CertReaper
   # Example: Plugin's HostsController inherits from Foreman's HostsController
   extend ProxyAPI
 
   class HostsController < ::HostsController
     # change layout if needed
-    # layout 'foreman_my_plugin/layouts/new_layout'
+    # layout 'cert_reaper/layouts/new_layout'
 
     def new_action
 
@@ -12,7 +12,7 @@ module ForemanMyPlugin
 
     def clear_cert
       @cert_name = @host
-      # automatically renders view/foreman_my_plugin/hosts/clear_action
+      # automatically renders view/cert_reaper/hosts/clear_action
 
       @host = Host.find_by_name(params[:id])
 

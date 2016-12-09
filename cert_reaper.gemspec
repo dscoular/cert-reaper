@@ -1,14 +1,14 @@
-require File.expand_path('../lib/foreman_my_plugin/version', __FILE__)
+require File.expand_path('../lib/cert_reaper/version', __FILE__)
 require 'date'
 
 Gem::Specification.new do |s|
-  s.name        = 'foreman_my_plugin'
-  s.version     = ForemanMyPlugin::VERSION
+  s.name        = 'cert_reaper'
+  s.version     = CertReaper::VERSION
   s.date        = Time.now
   s.authors     = ['Doug Scoular']
   s.email       = ['dscoular@cisco.com']
   s.homepage    = ''
-  s.summary     = 'My first Foreman plugin.'
+  s.summary     = 'Foreman plugin to allow removal of host puppet certificates.'
   # also update locale/gemspec.rb
   s.description = 'My first attempt at a foreman plugin based on the plugin example.'
 

@@ -1,4 +1,4 @@
-module ForemanMyPlugin
+module CertReaper
   module HostsHelperExtensions
     extend ActiveSupport::Concern
 
@@ -32,7 +32,7 @@ module ForemanMyPlugin
       title_actions(
         button_group(
                      # if host.try(:puppetca_proxy)
-                       link_to_if_authorized(_('Clear Cert'), { :controller => :'foreman_my_plugin/hosts', :action => :clear_cert, :id => host },
+                       link_to_if_authorized(_('Clear Cert'), { :controller => :'cert_reaper/hosts', :action => :clear_cert, :id => host },
                                              :title => _("Clear this host's puppet certificate"))
                      # end
                      )
@@ -43,7 +43,7 @@ module ForemanMyPlugin
     def show_appropriate_host_buttons_with_clear(host)
       logger.warn("DUG: show_appropriate_host_buttons_with_clear_cert() got called!!!")
       (show_appropriate_host_buttons_without_clear(host) +
-       [(link_to_if_authorized(_('Clear Cert'), { :controller => :'foreman_my_plugin/hosts', :action => :clear_cert, :id => host },
+       [(link_to_if_authorized(_('Clear Cert'), { :controller => :'cert_reaper/hosts', :action => :clear_cert, :id => host },
                                :title => _("Clear this host's puppet certificate"), :class => 'btn btn-default'))]).flatten.compact
     end
 

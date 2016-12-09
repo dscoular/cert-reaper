@@ -1,3 +1,3 @@
-module ForemanMyPlugin
+module CertReaper
   VERSION = '0.0.1'.freeze
 end

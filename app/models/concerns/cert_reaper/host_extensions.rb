@@ -1,4 +1,4 @@
-module ForemanMyPlugin
+module CertReaper
   module HostExtensions
     extend ActiveSupport::Concern
 
