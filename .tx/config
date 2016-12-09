@@ -1,8 +1,8 @@
 [main]
 host = https://www.transifex.com
 
-[foreman.foreman_my_plugin]
-file_filter = locale/<lang>/foreman_my_plugin.edit.po
-source_file = locale/foreman_my_plugin.pot
+[foreman.cert_reaper]
+file_filter = locale/<lang>/cert_reaper.edit.po
+source_file = locale/cert_reaper.pot
 source_lang = en
 type = PO
