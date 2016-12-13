@@ -1,11 +1,32 @@
 # Cert Reaper
 
-*Introduction here*
+##Introduction
+
+As a foreman user, with appropriate access, we wanted a plugin which allows us to manage puppet certs for our nodes, so that we can clean and regenerate them in a self-service fashion. We don't want to give this access through the puppet CA smart proxy "About" page.
+
+##Acceptance criteria
+
+This should be a Foreman plugin that:
+
+* adds "clean cert" to the host "edit" pulldown menu, under "hosts" (a new "controller").
+* adds the "clean cert" behavior to the API (a second new "controller").
+* adds the ability to clean multiple certs through the UI (select several servers, add option to the "actions" pulldown menu), with a confirmation warning (a "view") when doing so.
+* Documentation for the plugin
+* A new repo for the plugin (this *CANNOT* co-mingle with our other code)
+* The plugin must be presented in the form of a gem to ease foreman installation
+require Foreman 1.12 or greater
+* Test on idev 1, 2, or 5 first. Please announce that to the team.
+* The plugin should use the ACLs related to editing a host when deciding if the user can revoke a cert.
+
+####Notes
+This does not address the CRL-copy functionality, that is a separate process.
+
+The basis for this plugin was in the documentation found at the foreman web site: [How to Create a Plugin](http://projects.theforeman.org/projects/foreman/wiki/How_to_Create_a_Plugin).
 
 ## Installation
 
-See [How_to_Install_a_Plugin](http://projects.theforeman.org/projects/foreman/wiki/How_to_Install_a_Plugin)
-for how to install Foreman plugins
+See [the foreman plugin installation documentation](https://theforeman.org/plugins/#2.Installation)
+for how to install Foreman plugins.
 
 ## Usage
 
@@ -21,7 +42,7 @@ Fork and send a Pull Request. Thanks!
 
 ## Copyright
 
-Copyright (c) *year* *your name*
+Copyright (c) *2016* *Doug Scoular <dscoular@cisco.com>*
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
