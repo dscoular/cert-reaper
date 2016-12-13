@@ -1,10 +1,10 @@
 # Cert Reaper
 
-##Introduction
+## Introduction
 
 As a foreman user, with appropriate access, we wanted a plugin which allows us to manage puppet certs for our nodes, so that we can clean and regenerate them in a self-service fashion. We don't want to give this access through the puppet CA smart proxy "About" page.
 
-##Acceptance criteria
+## Acceptance criteria
 
 This should be a Foreman plugin that:
 
@@ -18,7 +18,7 @@ require Foreman 1.12 or greater
 * Test on idev 1, 2, or 5 first. Please announce that to the team.
 * The plugin should use the ACLs related to editing a host when deciding if the user can revoke a cert.
 
-####Notes
+### Notes
 This does not address the CRL-copy functionality, that is a separate process.
 
 The basis for this plugin was in the documentation found at the foreman web site: [How to Create a Plugin](http://projects.theforeman.org/projects/foreman/wiki/How_to_Create_a_Plugin).
