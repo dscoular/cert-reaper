@@ -1,13 +1,24 @@
 module CertReaper
+
   # Example: Plugin's HostsController inherits from Foreman's HostsController
   extend ProxyAPI
 
   class HostsController < ::HostsController
     # change layout if needed
     # layout 'cert_reaper/layouts/new_layout'
+    include HostsControllerExtensions
 
     def new_action
 
+    end
+
+    private
+    def multiple_clear_cert
+      @hosts.each do |host|
+        logger.warn _("DUG: Deleting certificate #{@host.certname}.")
+      end
+      notice _('Multiple certificates cleared')
+      redirect_back_or_to hosts_path
     end
 
     def clear_cert
