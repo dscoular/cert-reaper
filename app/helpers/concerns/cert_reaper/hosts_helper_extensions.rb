@@ -48,6 +48,7 @@ module CertReaper
     end
 
     def overview_fields_with_clear(host)
+      # I'm not sure where this appears on the user-interface.
       logger.warn("DUG: overview_fields_with_clear_cert() got called!!!")
       fields = overview_fields_without_clear(host)
 
