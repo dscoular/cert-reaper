@@ -6,7 +6,6 @@ module CertReaper
   class HostsController < ::HostsController
     # change layout if needed
     # layout 'cert_reaper/layouts/new_layout'
-    include HostsControllerExtensions
 
     def new_action
 
