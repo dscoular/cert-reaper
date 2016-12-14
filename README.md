@@ -15,7 +15,6 @@ This should be a Foreman plugin that:
 * A new repo for the plugin (this *CANNOT* co-mingle with our other code)
 * The plugin must be presented in the form of a gem to ease foreman installation
 require Foreman 1.12 or greater
-* Test on idev 1, 2, or 5 first. Please announce that to the team.
 * The plugin should use the ACLs related to editing a host when deciding if the user can revoke a cert.
 
 ### Notes
