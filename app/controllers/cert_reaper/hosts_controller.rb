@@ -7,26 +7,13 @@ module CertReaper
     # change layout if needed
     # layout 'cert_reaper/layouts/new_layout'
 
-    def new_action
-
-    end
-
-    private
-    def multiple_clear_cert
-      @hosts.each do |host|
-        logger.warn _("DUG: Deleting certificate #{@host.certname}.")
-      end
-      notice _('Multiple certificates cleared')
-      redirect_back_or_to hosts_path
-    end
-
     def clear_cert
       @cert_name = @host
       # automatically renders view/cert_reaper/hosts/clear_action
 
       @host = Host.find_by_name(params[:id])
 
-      logger.warn _("Successfully executed, you rock")
+      logger.warn _("Successfully executed, you rock!")
       logger.warn _(SmartProxy.inspect)
       logger.warn _(@host.inspect);
       logger.warn _(SETTINGS.inspect);
@@ -47,6 +34,15 @@ module CertReaper
       # File.open('/tmp/dug.oot', 'w') {
       #   |file| file.write("clear_cert was called")
       # }
+    end
+
+    private
+    def multiple_clear_cert
+      @hosts.each do |host|
+        logger.warn _("DUG: Deleting certificate #{@host.certname}.")
+      end
+      notice _('Multiple certificates cleared')
+      redirect_back_or_to hosts_path
     end
 
   end
