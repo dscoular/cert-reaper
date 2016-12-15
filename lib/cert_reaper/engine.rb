@@ -22,21 +22,23 @@ module CertReaper
 
         # Add permissions
         security_block :cert_reaper do
-          permission :view_cert_reaper, :'cert_reaper/hosts' => [:new_action]
+          # DUG: Removed this because we got rid of new_action in favour of clear_cert.
+          # permission :view_cert_reaper, :'cert_reaper/hosts' => [:new_action]
+          permission :view_cert_reaper, :'cert_reaper/hosts' => [:clear_cert]
         end
 
-        # Add a new role called 'Discovery' if it doesn't exist
+        # Add a new role called 'CertReaper' if it doesn't exist
         role 'CertReaper', [:view_cert_reaper]
 
-        # add menu entry
-        menu :top_menu, :template,
-             url_hash: { controller: :'cert_reaper/hosts', action: :new_action },
-             caption: 'CertReaper',
-             parent: :hosts_menu,
-             after: :hosts
+        # DUG: We don't need to add a menu entry
+        #menu :top_menu, :template,
+        # url_hash: { controller: :'cert_reaper/hosts', action: :new_action },
+        # caption: 'CertReaper',
+        # parent: :hosts_menu,
+        # after: :hosts
 
-        # add dashboard widget
-        widget 'cert_reaper_widget', name: N_('Foreman plugin template widget'), sizex: 4, sizey: 1
+        # DUG: We don't need to add a dashboard widget
+        #widget 'cert_reaper_widget', name: N_('Foreman plugin template widget'), sizex: 4, sizey: 1
       end
     end
 
