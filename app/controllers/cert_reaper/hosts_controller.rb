@@ -5,6 +5,7 @@ module CertReaper
   class HostsController < ::HostsController
     # change layout if needed
     # layout 'cert_reaper/layouts/new_layout'
+    before_action :find_resource, :only => [:clear_cert]
 
     def clear_cert
       # Since I don't trust the @hosts instance variable to always be
@@ -17,38 +18,24 @@ module CertReaper
       logger.warn _("DUG: params is: #{params.inspect}.")
       logger.warn _("DUG: class of params[:id] is: #{params[:id].class}.")
       logger.warn _("DUG: inspect of params[:id] is: #{params[:id].inspect}.")
-
-      # I'm pretty confused what the hell host, @host, params[:id], params[:host_id]
-      # and params[:host] all relate to!
-      if params[:id].class != String
-        logger.warn _("DUG: params[:id].class is '#{params[:id].class}' so assigning directly to my_host.")
-        my_host = params[:id]
-      else
-        logger.warn _("DUG: Searching for host in db '#{params[:id]}'.")
-        my_host = Host.find_by(name: params[:id])
-      end
       logger.warn _("DUG: Smart Proxy is #{SmartProxy.inspect}")
       logger.warn _("DUG: Foreman settings we know are: #{SETTINGS.inspect}")
 
-      if my_host
-        @my_host = my_host
-        logger.warn _("DUG: @my_host.class is '#{@my_host.class}'.")
-        if my_host.try(:certname)
-          logger.warn _('DUG: found the certificate for this host, you rock!')
-          logger.warn _("DUG: Deleting certificate #{my_host.certname}.")
-          logger.warn _("DUG: Using Puppet CA URL #{my_host.puppet_ca_proxy.url}.")
-          api = ProxyAPI::Puppetca.new(:url => my_host.puppet_ca_proxy.url)
-          api.del_certificate(my_host.certname)
-          logger.warn _("DUG: Deleted certificate #{my_host.certname}.")      
-          logger.warn _("DUG: local variables: #{local_variables}")
-          logger.warn _("DUG: instance_variables: #{instance_variables}")
-          logger.warn _("DUG: global variables: #{global_variables}")
-        else
-          logger.warn _("DUG: No certificate to delete: #{my_host.inspect}.")
-        end
+      logger.warn _("DUG: Found host in DB via '#{params[:id]}', my_host is: #{@host.inspect}.")
+
+      if @host.try(:certname)
+        logger.warn _("DUG: Successfully found the certificate for this host, you rock!")
+        logger.warn _("DUG: Deleting certificate #{@host.certname}.")
+        api = ProxyAPI::Puppetca.new({:url => @host.puppet_ca_proxy.url})
+        api.del_certificate(@host.certname)
+        logger.warn _("DUG: Deleted certificate #{@host.certname}.")
+        logger.warn _("DUG: local variables: #{local_variables}")
+        logger.warn _("DUG: instance_variables: #{instance_variables}")
+        logger.warn _("DUG: global variables: #{global_variables}")
       else
-        logger.warn _('DUG: No host found in database!')
+        logger.warn _("DUG: No certificate to delete: #{@host.inspect}.")
       end
+
       # logger.warn _(HostsController.public_instance_methods)
       # logger.warn _(self.public_methods)
       # logger.warn _(self.singleton_methods)
@@ -65,6 +52,15 @@ module CertReaper
       end
       notice _('Multiple certificates cleared')
       redirect_back_or_to hosts_path
+    end
+
+    def action_permission
+      case params[:action]
+      when 'clear_cert'
+        :edit
+      else
+        super
+      end
     end
   end
 end
