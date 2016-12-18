@@ -4,7 +4,7 @@ require 'date'
 Gem::Specification.new do |s|
   s.name        = 'cert_reaper'
   s.version     = CertReaper::VERSION
-  s.date        = Time.now
+  s.date        = Time.now.getlocal
   s.authors     = ['Doug Scoular']
   s.email       = ['dscoular@cisco.com']
   s.homepage    = ''
