@@ -31,14 +31,14 @@ module CertReaper
         role 'CertReaper', [:view_cert_reaper]
 
         # DUG: We don't need to add a menu entry
-        #menu :top_menu, :template,
+        # menu :top_menu, :template,
         # url_hash: { controller: :'cert_reaper/hosts', action: :new_action },
         # caption: 'CertReaper',
         # parent: :hosts_menu,
         # after: :hosts
 
         # DUG: We don't need to add a dashboard widget
-        #widget 'cert_reaper_widget', name: N_('Foreman plugin template widget'), sizex: 4, sizey: 1
+        # widget 'cert_reaper_widget', name: N_('Foreman plugin template widget'), sizex: 4, sizey: 1
       end
     end
 
