@@ -63,7 +63,7 @@ module CertReaper
       begin
         Host::Managed.send(:include, CertReaper::HostExtensions)
         HostsHelper.send(:include, CertReaper::HostsHelperExtensions)
-        HostsController.send(:include, CertReaper::HostsControllerExtensions)
+        HostsController.send(:include, CertReaper::Concerns::HostsControllerExtensions)
       rescue => e
         Rails.logger.warn "CertReaper: skipping engine hook (#{e})"
       end
