@@ -12,3 +12,4 @@ locale/*/*.po.time_stamp
 locale/*/*.pox
 *.gem
 *.rbc
+/doc/
