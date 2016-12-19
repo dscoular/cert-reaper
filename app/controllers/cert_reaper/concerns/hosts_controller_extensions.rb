@@ -4,10 +4,10 @@ module CertReaper
       extend ActiveSupport::Concern
 
       included do
-        alias_method_chain :multiple_actions, :clear
+        # alias_method_chain :multiple_actions, :clear
       end
 
-      def multiple_actions_with_clear
+      def retired_multiple_actions_with_clear
         logger.warn('DUG: multiple_actions_with_clear() got called!!!')
         actions = multiple_actions_without_clear
         actions << [_('Clear Puppet Certificate'), multiple_clear_cert]
