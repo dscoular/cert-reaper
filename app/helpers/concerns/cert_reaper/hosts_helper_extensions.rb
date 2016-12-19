@@ -24,7 +24,8 @@ module CertReaper
       #
       # DUG: looked odd: alias_method_chain :host_title_actions, :clear
       alias_method_chain :show_appropriate_host_buttons, :clear
-      alias_method_chain :overview_fields, :clear
+      # alias_method_chain :overview_fields, :clear
+      alias_method_chain :multiple_actions, :clear
     end
 
     # This is the row of buttons in the host details page on the right.
@@ -71,13 +72,17 @@ module CertReaper
       my_test = hash_for_clear_cert_path(:id => host)
       logger.warn _("DUG: hash_for_clear_cert_path(:id => host) returned: #{my_test}.")
       (show_appropriate_host_buttons_without_clear(host) +
-       [ link_to_if_authorized(_('Clear Cert'), hash_for_clear_cert_path(:id => host), :title => _('Clear this host\'s puppet certificate.', :class => 'btn btn-default'),
+       [ link_to_if_authorized(_('Clear Cert'), 
+                               hash_for_clear_cert_path(:id => host),
+                               :title => _('Clear this host\'s puppet certificate.'),
+                               :class => 'btn btn-default'),
          # (link_to_if_authorized(_('Clear Certy'), { :controller => :'cert_reaper/hosts', :action => :clear_cert, :id => host }, :title => _("Clear this host's puppet certificate"), :class => 'btn btn-default'))
        ]).flatten.compact
     end
 
-    def overview_fields_with_clear(host)
-      # I'm not sure where this appears on the user-interface.
+    def retired_overview_fields_with_clear(host)
+      # I'm not sure where this appears on the user-interface. I got it from the
+      # salt plugin.
       logger.warn('DUG: overview_fields_with_clear_cert() got called!!!')
       fields = overview_fields_without_clear(host)
 
@@ -85,6 +90,26 @@ module CertReaper
       # fields.insert(6, [_('Salt Environment'), (link_to(host.salt_environment, hosts_path(:search => "salt_environment = #{host.salt_environment}")) if host.salt_environment)])
 
       #fields
+    end
+
+    def multiple_actions_with_clear
+      ## Handle multiple host actions and add clear certificate option.
+      logger.warn('DUG: multiple_actions_with_clear() got called!!!')
+      actions = multiple_actions_without_clear
+      actions << [ _('Clear puppet Certificates'), multiple_clear_cert_path]
+      #actions << [_('Clear Puppet Certificate'), multiple_puppetrun_hosts_path]
+      #actions << [ _('Clear Puppet Certificate'), { :controller => 'cert_reaper/hosts', :action => :multiple_clear_cert, :title => _("Clear selected host's puppet certificate.") } ]
+      #actions <<  [_('Assign Org by Dug'), select_multiple_organization_hosts_path]
+      logger.warn('DUG:MULTIPLE_ACTIONS CALLED!' + actions.inspect)
+      #logger.warn _("DUG: Public instance methods: " + self.public_instance_methods)
+      logger.warn _("DUG: Public class methods: " + self.public_methods.join(' '))
+      logger.warn _("DUG: Public methods: " + public_methods.join(' '))
+      logger.warn _("DUG: Public class singleton methods: " + self.singleton_methods.join(' '))
+      logger.warn _("DUG: Public singleton methods: " + singleton_methods.join(' '))
+      actions
+      #actions <<  [_('Clear Puppet Certificate'),
+      #  multiple_puppetrun_hosts_path] if Setting[:puppetrun] &&
+      #             authorized_for(:controller => :hosts, :action => :puppetrun)
     end
 
     def clear_cert_host_dialog(host)
