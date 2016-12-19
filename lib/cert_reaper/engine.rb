@@ -25,6 +25,7 @@ module CertReaper
           # DUG: Removed this because we got rid of new_action in favour of clear_cert.
           # permission :view_cert_reaper, :'cert_reaper/hosts' => [:new_action]
           permission :view_cert_reaper, :'cert_reaper/hosts' => [:clear_cert]
+          permission :view_cert_reaper, :'cert_reaper/hosts' => [:multiple_clear_cert]
         end
 
         # Add a new role called 'CertReaper' if it doesn't exist
@@ -63,7 +64,7 @@ module CertReaper
       begin
         Host::Managed.send(:include, CertReaper::HostExtensions)
         HostsHelper.send(:include, CertReaper::HostsHelperExtensions)
-        HostsController.send(:include, CertReaper::Concerns::HostsControllerExtensions)
+        # HostsController.send(:include, CertReaper::Concerns::HostsControllerExtensions)
       rescue => e
         Rails.logger.warn "CertReaper: skipping engine hook (#{e})"
       end
