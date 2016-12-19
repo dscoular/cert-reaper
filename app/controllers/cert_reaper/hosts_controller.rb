@@ -1,28 +1,32 @@
 module CertReaper
-  # Example: Plugin's HostsController inherits from Foreman's HostsController
+  ##
+  # Our Certificate Reaper's host controller inherits from Foreman's
+  # HostsController.
+
   extend ProxyAPI
 
   class HostsController < ::HostsController
-    # change layout if needed
-    # layout 'cert_reaper/layouts/new_layout'
+    ##
+    # This class implements puppet certificate handling for foreman hosts.
+
+    #MULTIPLE_ACTIONS << %w(multiple_clear_cert)
+
     before_action :find_resource, :only => [:clear_cert]
+    before_action :find_multiple, :only => [:multiple_clear_cert] #MULTIPLE_ACTIONS
 
     def clear_cert
-      # Since I don't trust the @hosts instance variable to always be
-      # set correctly. I'll assume we are always dealing with params[:id]
-      # and even this seems to sometimes be a hostname string and other times be
-      # a host instance and there's also a params[:host_id] and a params[:id]
-      # in the code.
+      ##
+      # Our before action on the clear_cert method will have ensured
+      # that our @host instance is either a proper Host object or false. 
       #
-      # automatically renders view/cert_reaper/hosts/clear_action
+      # I'll assume we are always dealing with params[:id] and there
+      # also seems to be a params[:host_id] in other parts of the code
+      # which could lead to confusion (at least it does for me.
       logger.warn _("DUG: params is: #{params.inspect}.")
       logger.warn _("DUG: class of params[:id] is: #{params[:id].class}.")
       logger.warn _("DUG: inspect of params[:id] is: #{params[:id].inspect}.")
       logger.warn _("DUG: Smart Proxy is #{SmartProxy.inspect}")
       logger.warn _("DUG: Foreman settings we know are: #{SETTINGS.inspect}")
-
-      logger.warn _("DUG: Found host in DB via '#{params[:id]}', my_host is: #{@host.inspect}.")
-
       if @host.try(:certname)
         logger.warn _("DUG: Successfully found the certificate for this host, you rock!")
         logger.warn _("DUG: Deleting certificate #{@host.certname}.")
@@ -44,9 +48,8 @@ module CertReaper
       # }
     end
 
-    private
-
     def multiple_clear_cert
+      logger.warn _("DUG: multiple_clear_cert called. We have hosts: #{@hosts.inspect}.")
       @hosts.each do |host|
         logger.warn _("DUG: Deleting certificate #{host.certname}.")
       end
