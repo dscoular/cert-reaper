@@ -9,10 +9,12 @@ module CertReaper
     ##
     # This class implements puppet certificate handling for foreman hosts.
 
-    #MULTIPLE_ACTIONS << %w(multiple_clear_cert)
-
+    MULTIPLE_ACTIONS << 'multiple_clear_cert'
+    MULTIPLE_ACTIONS << 'submit_multiple_clear_cert'
+    logger.warn _("DUG: MULTIPLE ACTIONS = #{MULTIPLE_ACTIONS.inspect}")
     before_action :find_resource, :only => [:clear_cert]
-    before_action :find_multiple, :only => [:multiple_clear_cert] #MULTIPLE_ACTIONS
+    before_action :find_multiple, :only => MULTIPLE_ACTIONS
+#    before_action :find_multiple, :only => [:submit_multiple_clear_cert] #MULTIPLE_ACTIONS
 
     def clear_cert
       ##
@@ -49,17 +51,30 @@ module CertReaper
     end
 
     def multiple_clear_cert
-      logger.warn _("DUG: multiple_clear_cert called. We have hosts: #{@hosts.inspect}.")
-      @hosts.each do |host|
-        logger.warn _("DUG: Deleting certificate #{host.certname}.")
-      end
-      notice _('Multiple certificates cleared')
-      redirect_back_or_to hosts_path
+      logger.warn _("DUG: INSIDE multiple_clear_cert called. We have params: #{params.inspect}.")
+      logger.warn _("DUG: INSIDE multiple_clear_cert called. We have @hosts: #{@hosts.inspect}.")
+      hosts = @hosts
+    end
+
+    def submit_multiple_clear_cert
+      logger.warn _("DUG: INSIDE submit_multiple_clear_cert called. We have params: #{params.inspect}.")
+      find_multiple
+      logger.warn _("DUG: INSIDE submit_multiple_clear_cert called. We have @hosts: #{@hosts.inspect}.")
+      notice _('Cleared certificates for selected hosts: ' + @hosts.map(&:name).join(', '))
+      redirect_to(hosts_path)
     end
 
     def action_permission
+      logger.warn _("DUG: INSIDE action_permission called. We have params: #{params.inspect}.")
       case params[:action]
       when 'clear_cert'
+        logger.warn _("DUG: when clear_cert go to edit.")
+        :edit
+      when 'multiple_clear_cert'
+        logger.warn _("DUG: when multiple_clear_cert go to edit.")
+        :edit
+      when 'submit_multiple_clear_cert'
+        logger.warn _("DUG: when submit_multiple_clear_cert go to edit.")
         :edit
       else
         super
