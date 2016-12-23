@@ -60,7 +60,7 @@ module CertReaper
 
     # This is the row of buttons in the host details page on the left.
     def show_appropriate_host_buttons_with_clear(host)
-      logger.warn _("DUG: Inside show_appropriate_host_buttons_with_clear() got called!!!")
+      logger.warn _("DUG: INSIDE show_appropriate_host_buttons_with_clear() got called!!!")
       logger.warn _("DUG: we were passed this host: #{host.inspect}.")
       logger.warn _("DUG: the class of the host param is: #{host.class}.")
       logger.warn _("DUG: the instance @host: #{@host.inspect}.")
@@ -94,19 +94,19 @@ module CertReaper
 
     def multiple_actions_with_clear
       ## Handle multiple host actions and add clear certificate option.
-      logger.warn('DUG: multiple_actions_with_clear() got called!!!')
+      logger.warn('DUG: INSIDE multiple_actions_with_clear() got called!!!')
       actions = multiple_actions_without_clear
       actions << [ _('Clear puppet Certificates'), multiple_clear_cert_path]
-      #actions << [_('Clear Puppet Certificate'), multiple_puppetrun_hosts_path]
+      logger.warn('DUG:MULTIPLE_ACTIONS CALLED!' + actions.inspect)
+      actions
+      #actions << [_('Clear Puppet Certificate'), 'multiple_puppetrun_hosts_path]
       #actions << [ _('Clear Puppet Certificate'), { :controller => 'cert_reaper/hosts', :action => :multiple_clear_cert, :title => _("Clear selected host's puppet certificate.") } ]
       #actions <<  [_('Assign Org by Dug'), select_multiple_organization_hosts_path]
-      logger.warn('DUG:MULTIPLE_ACTIONS CALLED!' + actions.inspect)
       #logger.warn _("DUG: Public instance methods: " + self.public_instance_methods)
-      logger.warn _("DUG: Public class methods: " + self.public_methods.join(' '))
-      logger.warn _("DUG: Public methods: " + public_methods.join(' '))
-      logger.warn _("DUG: Public class singleton methods: " + self.singleton_methods.join(' '))
-      logger.warn _("DUG: Public singleton methods: " + singleton_methods.join(' '))
-      actions
+      #logger.warn _("DUG: Public class methods: " + self.public_methods.join(' '))
+      #logger.warn _("DUG: Public methods: " + public_methods.join(' '))
+      #logger.warn _("DUG: Public class singleton methods: " + self.singleton_methods.join(' '))
+      #logger.warn _("DUG: Public singleton methods: " + singleton_methods.join(' '))
       #actions <<  [_('Clear Puppet Certificate'),
       #  multiple_puppetrun_hosts_path] if Setting[:puppetrun] &&
       #             authorized_for(:controller => :hosts, :action => :puppetrun)
