@@ -1,0 +1,7 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_tag submit_multiple_clear_cert_path({:host_ids => params[:host_ids]}) do %>
+  <%# submit_tag _("Clear puppet certificates for selected hosts") %>
+    <small><%= _('Clear puppet certificates for selected hosts') %></small>
+<% end %>
+
