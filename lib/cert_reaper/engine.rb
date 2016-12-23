@@ -26,6 +26,7 @@ module CertReaper
           # permission :view_cert_reaper, :'cert_reaper/hosts' => [:new_action]
           permission :view_cert_reaper, :'cert_reaper/hosts' => [:clear_cert]
           permission :view_cert_reaper, :'cert_reaper/hosts' => [:multiple_clear_cert]
+          permission :view_cert_reaper, :'cert_reaper/hosts' => [:submit_multiple_clear_cert]
         end
 
         # Add a new role called 'CertReaper' if it doesn't exist
