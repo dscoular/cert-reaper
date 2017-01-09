@@ -38,9 +38,11 @@ module CertReaper
         logger.warn _("DUG: local variables: #{local_variables}")
         logger.warn _("DUG: instance_variables: #{instance_variables}")
         logger.warn _("DUG: global variables: #{global_variables}")
+        notice _('Cleared certificates for selected host: ' + @host.certname)
       else
         logger.warn _("DUG: No certificate to delete: #{@host.inspect}.")
       end
+      redirect_to(hosts_path)
 
       # logger.warn _(HostsController.public_instance_methods)
       # logger.warn _(self.public_methods)
