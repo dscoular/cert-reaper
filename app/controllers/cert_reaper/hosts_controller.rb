@@ -32,6 +32,7 @@ module CertReaper
       if @host.try(:certname)
         logger.warn _("DUG: Successfully found the certificate for this host, you rock!")
         logger.warn _("DUG: Deleting certificate #{@host.certname}.")
+        logger.warn _("DUG: Inspect @host: #{@host.inspect}.")
         api = ProxyAPI::Puppetca.new({:url => @host.puppet_ca_proxy.url})
         api.del_certificate(@host.certname)
         logger.warn _("DUG: Deleted certificate #{@host.certname}.")
@@ -62,6 +63,11 @@ module CertReaper
       logger.warn _("DUG: INSIDE submit_multiple_clear_cert called. We have params: #{params.inspect}.")
       find_multiple
       logger.warn _("DUG: INSIDE submit_multiple_clear_cert called. We have @hosts: #{@hosts.inspect}.")
+      @hosts.each do |host|
+        logger.warn _("DUG: Calling puppet CA proxy on : #{host.puppet_ca_proxy.url}.")
+        api = ProxyAPI::Puppetca.new({:url => host.puppet_ca_proxy.url})
+        api.del_certificate(host.certname)
+      end
       notice _('Cleared certificates for selected hosts: ' + @hosts.map(&:name).join(', '))
       redirect_to(hosts_path)
     end
