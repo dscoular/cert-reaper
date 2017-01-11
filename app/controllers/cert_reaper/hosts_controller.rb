@@ -16,6 +16,13 @@ module CertReaper
     before_action :find_multiple, :only => MULTIPLE_ACTIONS
 #    before_action :find_multiple, :only => [:submit_multiple_clear_cert] #MULTIPLE_ACTIONS
 
+    # def resource_base
+    #   base = super
+    #   base = base.eager_load(:locations) if SETTINGS[:locations_enabled]
+    #   base = base.eager_load(:organizations) if SETTINGS[:organizations_enabled]
+    #   base
+    # end
+
     def clear_cert
       ##
       # Our before action on the clear_cert method will have ensured
@@ -33,9 +40,18 @@ module CertReaper
         logger.warn _("DUG: Successfully found the certificate for this host, you rock!")
         logger.warn _("DUG: Deleting certificate #{@host.certname}.")
         logger.warn _("DUG: Inspect @host: #{@host.inspect}.")
-        api = ProxyAPI::Puppetca.new({:url => @host.puppet_ca_proxy.url})
-        api.del_certificate(@host.certname)
-        logger.warn _("DUG: Deleted certificate #{@host.certname}.")
+        # @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+        @smart_proxies = SmartProxy.all
+        @smart_proxies.each do |smart_proxy|
+          logger.warn _("DUG: Enumerating smart_proxy: #{smart_proxy.inspect}")
+          if smart_proxy.try(:url)
+            api = ProxyAPI::Puppetca.new({:url => smart_proxy.url})
+            api.del_certificate(@host.certname)
+            logger.warn _("DUG: Deleted certificate #{@host.certname}.")
+          else
+            logger.warn _("DUG: No url for proxy #{smart_proxy.inspect}.")
+          end
+        end
         logger.warn _("DUG: local variables: #{local_variables}")
         logger.warn _("DUG: instance_variables: #{instance_variables}")
         logger.warn _("DUG: global variables: #{global_variables}")
@@ -64,9 +80,22 @@ module CertReaper
       find_multiple
       logger.warn _("DUG: INSIDE submit_multiple_clear_cert called. We have @hosts: #{@hosts.inspect}.")
       @hosts.each do |host|
-        logger.warn _("DUG: Calling puppet CA proxy on : #{host.puppet_ca_proxy.url}.")
-        api = ProxyAPI::Puppetca.new({:url => host.puppet_ca_proxy.url})
-        api.del_certificate(host.certname)
+        if host.try(:certname)
+          # logger.warn _("DUG: Calling puppet CA proxy on : #{host.puppet_ca_proxy.url}.")
+          @smart_proxies = SmartProxy.all
+          @smart_proxies.each do |smart_proxy|
+            logger.warn _("DUG: Enumerating smart_proxy: #{smart_proxy.inspect}")
+            if smart_proxy.try(:url)
+              api = ProxyAPI::Puppetca.new({:url => smart_proxy.url})
+              api.del_certificate(host.certname)
+              logger.warn _("DUG: Deleted certificate #{host.certname}.")
+            else
+              logger.warn _("DUG: No url for proxy #{smart_proxy.inspect}.")
+            end
+          end
+        # api = ProxyAPI::Puppetca.new({:url => host.puppet_ca_proxy.url})
+        # api.del_certificate(host.certname)
+        end
       end
       notice _('Cleared certificates for selected hosts: ' + @hosts.map(&:name).join(', '))
       redirect_to(hosts_path)
