@@ -5,14 +5,15 @@ Rails:
 Style/Documentation:
   Enabled: false
 
+## Commented out as recommended by jsherril on IRC. Foreman is now on rails 4+.
 # Force before_filter until upgrade to Rails 4
-Rails/ActionFilter:
-  EnforcedStyle: filter
+#Rails/ActionFilter:
+#  EnforcedStyle: filter
 
-Metrics/MethodLength:
+#Metrics/MethodLength:
   Max: 20
 
-Metrics/LineLength:
+#Metrics/LineLength:
   Max: 111 # TODO: discuss and set this
 
 Style/Next:
