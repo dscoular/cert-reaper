@@ -10,9 +10,12 @@ Gem::Specification.new do |s|
   s.homepage    = ''
   s.summary     = 'Foreman plugin to allow removal of host puppet certificates.'
   # also update locale/gemspec.rb
-  s.description = 'My first attempt at a foreman plugin based on the plugin example.'
+  s.description = 'Allows you to clear a host\'s certificates from all ' \
+                  'associated puppet smart proxies.'
 
-  s.files = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
+  s.files = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE',
+                                                      'Rakefile',
+                                                      'README.md']
   s.test_files = Dir['test/**/*']
 
   s.add_dependency 'deface'
