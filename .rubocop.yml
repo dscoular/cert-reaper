@@ -10,10 +10,10 @@ Style/Documentation:
 #Rails/ActionFilter:
 #  EnforcedStyle: filter
 
-#Metrics/MethodLength:
+Metrics/MethodLength:
   Max: 20
 
-#Metrics/LineLength:
+Metrics/LineLength:
   Max: 111 # TODO: discuss and set this
 
 Style/Next:
