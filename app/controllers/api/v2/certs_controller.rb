@@ -9,10 +9,12 @@ module Api
       end
 
       api :DELETE, '/certs/:certname/', _('Clear a puppet certificate.')
-      param :certname, :required => true, String, desc: 'Full name of the user'
+      param :certname,  String, :desc => 'Full name of the user', :required => true
 
       def destroy
-        render :json => { :error => _('Destroy got called with "#{params['certname']}".' }, :status => :precondition_failed
+        render :json => {
+          :error => _('Destroy got called.')
+        }, :status => :precondition_failed
       end
     end
   end
