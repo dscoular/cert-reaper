@@ -1,6 +1,6 @@
 module Api
-  module v2
-    class CertsController < ::Api::v2::BaseController
+  module V2
+    class CertsController < ::Api::V2::BaseController
 
       resource_description do
         resource_id 'certs'
