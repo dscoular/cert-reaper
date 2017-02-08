@@ -10,6 +10,12 @@ module CertReaper
   ##
   # This class implements puppet certificate handling for foreman hosts.
   class HostsController < ::HostsController
+    ##
+    # A class to handle our Host related action specific to puppet certs.
+
+    # Include our puppet certificate handling mixin methods.
+    include Concerns::Certifiable
+
     # Add our two "multiple" actions to the controller's MULTIPLE_ACTIONS array.
     MULTIPLE_ACTIONS << 'multiple_clear_cert'
     MULTIPLE_ACTIONS << 'submit_multiple_clear_cert'
@@ -33,7 +39,7 @@ module CertReaper
       # which could lead to confusion (at least it does for me).
       logger.warn _("DUG: @host instance is: #{@host.inspect}.")
       host_clear_cert @host
-      notice _('Cleared certificates for selected host: ' +
+      notice _('Clear certificate requested for selected host: ' +
                @host.try(:certname))
       redirect_to(hosts_path)
     end
@@ -62,7 +68,7 @@ module CertReaper
       @hosts.each do |host|
         host_clear_cert host
       end
-      notice _('Cleared certificates for selected hosts: ' +
+      notice _('Clear certificates requested for selected hosts: ' +
                @hosts.map(&:name).join(', '))
       redirect_to(hosts_path)
     end
@@ -84,38 +90,38 @@ module CertReaper
       end
     end
 
-    private
+    # private
 
-    ##
-    # Our private ca_feature? method determines if our list of features
-    # contains the "Puppet CA" feature.
-    def ca_feature?(features)
-      features.find do |feature|
-        if feature.try(:name)
-          feature.name == 'Puppet CA'
-        else
-          false
-        end
-      end
-    end
+    # ##
+    # # Our private ca_feature? method determines if our list of features
+    # # contains the "Puppet CA" feature.
+    # def ca_feature?(features)
+    #   features.find do |feature|
+    #     if feature.try(:name)
+    #       feature.name == 'Puppet CA'
+    #     else
+    #       false
+    #     end
+    #   end
+    # end
 
-    ##
-    # Our host_clear_cert method enumerates all known smart proxies,
-    # We determine if they implement the "Puppet CA" feature and, if they do,
-    # we ask the puppet ProxyAPI to clear the certificate for the cert name.
-    def host_clear_cert(host)
-      return unless host.try(:certname) # Our host doesn't have a certname!
-      # Enumerate all our host's smart proxies.
-      SmartProxy.all do |smart_proxy|
-        # Check if this proxy is relevant i.e. has features, has a CA proxy
-        # feature and an associated proxy URL.
-        next unless smart_proxy.try(:features)
-        next unless ca_feature? smart_proxy.features
-        next unless smart_proxy.try(:url)
-        # This is, indeed, a puppet CA smart proxy we can bend to our will.
-        api = ProxyAPI::Puppetca.new(:url => smart_proxy.url)
-        api.del_certificate(host.certname)
-      end
-    end
+    # ##
+    # # Our host_clear_cert method enumerates all known smart proxies,
+    # # We determine if they implement the "Puppet CA" feature and, if they do,
+    # # we ask the puppet ProxyAPI to clear the certificate for the cert name.
+    # def host_clear_cert(host)
+    #   return unless host.try(:certname) # Our host doesn't have a certname!
+    #   # Enumerate all our host's smart proxies.
+    #   SmartProxy.all do |smart_proxy|
+    #     # Check if this proxy is relevant i.e. has features, has a CA proxy
+    #     # feature and an associated proxy URL.
+    #     next unless smart_proxy.try(:features)
+    #     next unless ca_feature? smart_proxy.features
+    #     next unless smart_proxy.try(:url)
+    #     # This is, indeed, a puppet CA smart proxy we can bend to our will.
+    #     api = ProxyAPI::Puppetca.new(:url => smart_proxy.url)
+    #     api.del_certificate(host.certname)
+    #   end
+    # end
   end
 end
