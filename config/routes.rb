@@ -12,7 +12,7 @@ Rails.application.routes.draw do
         # resource :certs, :only => [:destroy]
         delete '/certs/:certname',
                controller: 'certs',
-               to: :destroy,
+               action: :destroy,
                # The default constraint doesn't allow "." so we have to
                # explicitly set the constraint to a regex for fqdn hostnames.
                constraints: {
