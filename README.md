@@ -25,7 +25,7 @@ The basis for this plugin was in the documentation found at the foreman web site
 ## Installation
 
 See [the foreman plugin installation documentation](https://theforeman.org/plugins/#2.Installation)
-for how to install Foreman plugins.
+for details on how to install Foreman plugins. In a nut-shell, you can take the cert-reaper.rb bundler gem file and add it to your foreman installations bundler.d directory. You'll need to update the :path symbol to point to your cert_reaper directory or change it to point to the version of the cert_reaper gem you have installed into your ruby's $LOAD_PATH.
 
 ## Usage
 
@@ -41,7 +41,7 @@ Fork and send a Pull Request. Thanks!
 
 ## Copyright
 
-Copyright (c) *2016* *Doug Scoular <dscoular@cisco.com>*
+Copyright (c) *2016, 2017* *Doug Scoular <dscoular@cisco.com>*
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
